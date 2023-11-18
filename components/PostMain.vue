@@ -32,7 +32,6 @@ xw                    </span>
                         v-if="post.video"
                         ref="video"
                         loop
-                        muted
                         class="rounded-xl object-cover mx-auto h-full"
                         :src="post.video"
                     />
