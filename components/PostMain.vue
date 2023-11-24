@@ -182,10 +182,7 @@ const isLoggedIn = (user) => {
 }
 
 const displayPost = (post) => {
-    if (!$userStore.id) {
-        $generalStore.isLoginOpen = true
-        return
-    }
+
 
     $generalStore.setBackUrl('/')
     $generalStore.selectedPost = null
