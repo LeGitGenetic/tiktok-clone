@@ -32,7 +32,6 @@ xw                    </span>
                         v-if="post.video"
                         ref="video"
                         loop
-                        muted
                         class="rounded-xl object-cover mx-auto h-full"
                         :src="post.video"
                     />
@@ -91,20 +90,28 @@ let video = ref(null)
 
 
 onMounted(() => {
-    let observer = new IntersectionObserver(function(entries) {
-        if (entries[0].isIntersecting) {
-            console.log('Element is playing' + post.value.id);
-            video.value.play()
-        } else {
-            console.log('Element is paused' + post.value.id);
-            video.value.pause()
-        }
+  // Unlocking audio context with user interaction
+  document.addEventListener('click', unlockAudioContext, {once: true});
 
-    }, { threshold: [0.6] });
+  function unlockAudioContext() {
+    // Your existing unlock code goes here
+  }
 
-    observer.observe(document.getElementById(`PostMain-${post.value.id}`));
-})
+  let observer = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting) {
+      console.log('Element is playing' + post.value.id);
+      video.value.play().catch(e => {
+        console.log('Error playing video: ', e);
+        // Handle error or prompt user for interaction
+      });
+    } else {
+      console.log('Element is paused' + post.value.id);
+      video.value.pause();
+    }
+  }, { threshold: [0.6] });
 
+  observer.observe(document.getElementById(`PostMain-${post.value.id}`));
+});
 
 
 
